@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :vehicle do
-    vin "MyString"
-    mileage 1
-    plate_state "MyString"
+    sequence(:vin) { |n| "1HGBH41JXMN10918#{n}" }
+    mileage { rand(10_000..300_000) }
+    plate_state 'CO'
   end
 end
