@@ -2,23 +2,23 @@ require 'rails_helper'
 
 describe VehiclesController do
   describe '#index' do
+    subject { get :index }
+
     it 'should return success response' do
-      get :index
+      subject
       expect(response).to have_http_status(:ok)
     end
 
     it 'should return proper json' do
-      create_list :vehicle, 2
-      get :index
-      json = JSON.parse(response.body)
-      json_data = json['data']
-      expect(json_data.length).to eq(2)
-      expect(json_data[0]['attributes']).to eq({
-        "vin"=>"1HGBH41JXMN109181", "mileage"=>wildcard_matcher, "plate-state"=>"CO"
-      })
-      expect(json_data[1]['attributes']).to eq({
-        "vin"=>"1HGBH41JXMN109182", "mileage"=>wildcard_matcher, "plate-state"=>"CO"
-      })
+      vehicles = create_list :vehicle, 2
+      subject
+      vehicles.each_with_index do |vehicle, index|
+        expect(json_data[index]['attributes']).to eq({
+          'vin' => vehicle.vin,
+          'mileage' => vehicle.mileage,
+          'plate-state' => vehicle.plate_state
+        })
+      end
     end
   end
 end
