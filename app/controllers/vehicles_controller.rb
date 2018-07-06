@@ -1,6 +1,6 @@
 class VehiclesController < ApplicationController
   def index
-    vehicles = Vehicle.all
+    vehicles = Vehicle.recent
     render json: vehicles
   end
 

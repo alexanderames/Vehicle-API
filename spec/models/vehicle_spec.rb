@@ -30,4 +30,18 @@ RSpec.describe Vehicle, type: :model do
       expect(v.errors.messages[:plate_state]).to include("can't be blank")
     end
   end
+
+  describe '.recent' do
+    it 'should list recent vehicle first' do
+      old_vehicle = create :vehicle
+      newer_vehicle = create :vehicle
+      expect(described_class.recent).to eq(
+        [ newer_vehicle, old_vehicle ]
+      )
+      old_vehicle.update_column :created_at, Time.now
+      expect(described_class.recent).to eq(
+        [ old_vehicle, newer_vehicle ]
+      )
+    end
+  end
 end
