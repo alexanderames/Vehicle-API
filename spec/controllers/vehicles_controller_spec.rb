@@ -10,9 +10,9 @@ describe VehiclesController do
     end
 
     it 'should return proper json' do
-      vehicles = create_list :vehicle, 2
+      create_list :vehicle, 2
       subject
-      Vehicles.recent.each_with_index do |vehicle, index|
+      Vehicle.recent.each_with_index do |vehicle, index|
         expect(json_data[index]['attributes']).to eq({
           'vin' => vehicle.vin,
           'mileage' => vehicle.mileage,
@@ -33,8 +33,7 @@ describe VehiclesController do
       create_list :vehicle, 3
       get :index, params: { page: 2, per_page: 1 }
       expect(json_data.length).to eq 1
-      expected_vehicle = vehicle.recent.second.id.to_s
+      expected_vehicle = Vehicle.recent.second.id.to_s
       expect(json_data.first['id']).to eq(expected_vehicle)
     end
-  end
 end
