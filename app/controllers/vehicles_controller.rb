@@ -8,5 +8,6 @@ class VehiclesController < ApplicationController
   end
 
   def show
+    render json: Vehicle.find(params[:id])
   end
 end

@@ -36,4 +36,24 @@ describe VehiclesController do
       expected_vehicle = Vehicle.recent.second.id.to_s
       expect(json_data.first['id']).to eq(expected_vehicle)
     end
+  end
+
+  describe '#show' do
+    let(:vehicle) { create :vehicle }
+    subject { get :show, params: { id: vehicle.id } }
+
+    it 'should return success response' do
+      subject
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'should return proper json' do
+      subject
+      expect(json_data['attributes']).to eq({
+        'vin' => vehicle.vin,
+        'mileage' => vehicle.mileage,
+        'plate-state' => vehicle.plate_state
+      })
+    end
+  end
 end
