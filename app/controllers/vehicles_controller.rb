@@ -36,6 +36,14 @@ class VehiclesController < ApplicationController
       status: :unprocessable_entity
   end
 
+  def destroy
+    vehicle = current_user.vehicles.find(params[:id])
+    vehicle.destroy
+    head :no_content
+  rescue
+    authorization_error
+  end
+
   private
 
   def vehicle_params

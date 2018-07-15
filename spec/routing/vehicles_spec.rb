@@ -17,4 +17,8 @@ describe 'vehicles routes' do
     expect(put '/vehicles/1').to route_to('vehicles#update', id: '1')
     expect(patch '/vehicles/1').to route_to('vehicles#update', id: '1')
   end
+
+  it 'should route to vehicles destroy' do
+    expect(delete '/vehicles/1').to route_to('vehicles#destroy', id: '1')
+  end
 end
