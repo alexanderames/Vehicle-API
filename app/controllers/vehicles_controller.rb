@@ -13,9 +13,11 @@ class VehiclesController < ApplicationController
   end
 
   def create
-    vehicle = Vehicle.new(vehicle_params)
+    vehicle = current_user.vehicles.build(vehicle_params)
     vehicle.save!
     render json: vehicle, status: :created
+  rescue ActiveRecord::RecordNotFound
+    authorization_error
   rescue
     render json: vehicle, adapter: :json_api,
       serializer: ErrorSerializer,
@@ -23,9 +25,11 @@ class VehiclesController < ApplicationController
   end
 
   def update
-    vehicle = Vehicle.find(params[:id])
+    vehicle = current_user.vehicles.find(params[:id])
     vehicle.update_attributes!(vehicle_params)
     render json: vehicle, status: :ok
+  rescue ActiveRecord::RecordNotFound
+    authorization_error
   rescue
     render json: vehicle, adapter: :json_api,
       serializer: ErrorSerializer,
@@ -35,6 +39,8 @@ class VehiclesController < ApplicationController
   private
 
   def vehicle_params
-    params.require(:data).require(:attributes).permit(:vin, :mileage) || ActionController::Parameters.new
+    params.require(:data).require(:attributes).
+      permit(:vin, :mileage) ||
+    ActionController::Parameters.new
   end
 end
