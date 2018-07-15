@@ -2,5 +2,5 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   post 'login', to: 'access_tokens#create'
   delete 'logout', to: 'access_tokens#destroy'
-  resources :vehicles, only: [:index, :show]
+  resources :vehicles, only: %i[index show create update]
 end

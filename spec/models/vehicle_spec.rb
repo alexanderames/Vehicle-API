@@ -23,12 +23,6 @@ RSpec.describe Vehicle, type: :model do
       expect(v).not_to be_valid
       expect(v.errors.messages[:mileage]).to include("can't be blank")
     end
-
-    it 'should validate the presence of plate_state' do
-      v = build :vehicle, plate_state: ''
-      expect(v).not_to be_valid
-      expect(v.errors.messages[:plate_state]).to include("can't be blank")
-    end
   end
 
   describe '.recent' do
