@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180728235045) do
+ActiveRecord::Schema.define(version: 20180729205423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,29 @@ ActiveRecord::Schema.define(version: 20180728235045) do
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_makes_on_user_id"
     t.index ["vehicle_id"], name: "index_makes_on_vehicle_id"
+  end
+
+  create_table "models", force: :cascade do |t|
+    t.string "name"
+    t.bigint "make_id"
+    t.bigint "vehicle_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["make_id"], name: "index_models_on_make_id"
+    t.index ["vehicle_id"], name: "index_models_on_vehicle_id"
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.integer "seats"
+    t.string "transmission"
+    t.string "drivetrain"
+    t.string "fuel_type"
+    t.string "style"
+    t.string "color"
+    t.bigint "vehicle_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_id"], name: "index_options_on_vehicle_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -56,5 +79,8 @@ ActiveRecord::Schema.define(version: 20180728235045) do
   add_foreign_key "access_tokens", "users"
   add_foreign_key "makes", "users"
   add_foreign_key "makes", "vehicles"
+  add_foreign_key "models", "makes"
+  add_foreign_key "models", "vehicles"
+  add_foreign_key "options", "vehicles"
   add_foreign_key "vehicles", "users"
 end
