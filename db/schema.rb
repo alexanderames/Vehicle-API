@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180715212352) do
+ActiveRecord::Schema.define(version: 20180728235045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,16 @@ ActiveRecord::Schema.define(version: 20180715212352) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_access_tokens_on_user_id"
+  end
+
+  create_table "makes", force: :cascade do |t|
+    t.string "name"
+    t.bigint "vehicle_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_makes_on_user_id"
+    t.index ["vehicle_id"], name: "index_makes_on_vehicle_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,5 +54,7 @@ ActiveRecord::Schema.define(version: 20180715212352) do
   end
 
   add_foreign_key "access_tokens", "users"
+  add_foreign_key "makes", "users"
+  add_foreign_key "makes", "vehicles"
   add_foreign_key "vehicles", "users"
 end
