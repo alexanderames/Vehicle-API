@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :make do
-    name "MyString"
-    vehicle nil
-    user nil
+    name "Subaru"
+    association :vehicle
+    association :user
   end
 end

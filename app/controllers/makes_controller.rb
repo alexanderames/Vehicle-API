@@ -1,20 +1,21 @@
 class MakesController < ApplicationController
   skip_before_action :authorize!, only: [:index]
+  before_action :load_vehicle
 
   # GET /makes
   def index
-    @makes = Make.all
+    makes = @vehicle.makes
 
-    render json: @makes
+    render json: makes
   end
 
 
   # POST /makes
   def create
-    @make = Make.new(make_params)
+    @make = @vehicle.makes.build(make_params.merge(user: current_user))
 
     if @make.save
-      render json: @make, status: :created, location: @make
+      render json: @make, status: :created, location: @vehicle
     else
       render json: @make.errors, status: :unprocessable_entity
     end
@@ -23,8 +24,12 @@ class MakesController < ApplicationController
 
   private
 
+  def load_vehicle
+    @vehicle = Vehicle.find(params[:vehicle_id])
+  end
+
     # Only allow a trusted parameter "white list" through.
     def make_params
-      params.require(:make).permit(:name, :vehicle_id, :user_id)
+      params.require(:make).permit(:name)
     end
 end
