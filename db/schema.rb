@@ -36,11 +36,9 @@ ActiveRecord::Schema.define(version: 20180729205423) do
   create_table "models", force: :cascade do |t|
     t.string "name"
     t.bigint "make_id"
-    t.bigint "vehicle_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["make_id"], name: "index_models_on_make_id"
-    t.index ["vehicle_id"], name: "index_models_on_vehicle_id"
   end
 
   create_table "options", force: :cascade do |t|
@@ -80,7 +78,6 @@ ActiveRecord::Schema.define(version: 20180729205423) do
   add_foreign_key "makes", "users"
   add_foreign_key "makes", "vehicles"
   add_foreign_key "models", "makes"
-  add_foreign_key "models", "vehicles"
   add_foreign_key "options", "vehicles"
   add_foreign_key "vehicles", "users"
 end
